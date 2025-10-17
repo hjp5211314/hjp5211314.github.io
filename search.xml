@@ -4,39 +4,6 @@
   
     
     <entry>
-      <title>Hexo博客Butterfly主题不蒜子接口修改教程</title>
-      <link href="/posts/5bc6f99e.html"/>
-      <url>/posts/5bc6f99e.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>不蒜子（busuanzi）是很多 Hexo 博客使用的访问统计工具，简单免费且无需注册。但由于官方接口 <code>busuanzi.ibruce.info</code> 有时访问不稳定，甚至出现了完全不能使用的情况，本文教你如何将其替换为新接口 <code>cn.vercount.one</code>，提升统计加载速度和稳定性。</p><hr><h2 id="一、什么是不蒜子？"><a href="#一、什么是不蒜子？" class="headerlink" title="一、什么是不蒜子？"></a>一、什么是不蒜子？</h2><h3 id="📊-功能介绍"><a href="#📊-功能介绍" class="headerlink" title="📊 功能介绍"></a>📊 功能介绍</h3><p>不蒜子是一个极简的网站计数器，可以统计：</p><ul><li><strong>站点 UV（Unique Visitor）</strong> - 网站总访客数</li><li><strong>站点 PV（Page View）</strong> - 网站总浏览量</li><li><strong>文章 PV</strong> - 单篇文章阅读量</li></ul><h3 id="💡-工作原理"><a href="#💡-工作原理" class="headerlink" title="💡 工作原理"></a>💡 工作原理</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">访客打开网页</span><br><span class="line">    ↓</span><br><span class="line">加载不蒜子 JS 脚本</span><br><span class="line">    ↓</span><br><span class="line">脚本扫描页面中的特定 ID</span><br><span class="line">    ↓</span><br><span class="line">向统计服务器发送请求</span><br><span class="line">    ↓</span><br><span class="line">返回数据并显示在页面上</span><br></pre></td></tr></table></figure><h3 id="⚠️-存在的问题"><a href="#⚠️-存在的问题" class="headerlink" title="⚠️ 存在的问题"></a>⚠️ 存在的问题</h3><ol><li><strong>官方接口不稳定</strong> - <code>busuanzi.ibruce.info</code> 偶尔无法访问，甚至出现了完全不能使用的情况</li><li><strong>加载速度慢</strong> - 访问速度可能较慢</li><li><strong>影响用户体验</strong> - 加载失败会导致统计数据无法显示</li></ol><hr><h2 id="二、为什么要更换接口？"><a href="#二、为什么要更换接口？" class="headerlink" title="二、为什么要更换接口？"></a>二、为什么要更换接口？</h2><h3 id="🚀-新接口的优势"><a href="#🚀-新接口的优势" class="headerlink" title="🚀 新接口的优势"></a>🚀 新接口的优势</h3><table><thead><tr><th>对比项</th><th>官方接口</th><th>新接口</th></tr></thead><tbody><tr><td><strong>访问速度</strong></td><td>⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr><tr><td><strong>数据兼容</strong></td><td>✅</td><td>✅ 完全兼容</td></tr><tr><td><strong>可用性</strong></td><td>较低</td><td>较高</td></tr></tbody></table><h3 id="📌-新接口地址"><a href="#📌-新接口地址" class="headerlink" title="📌 新接口地址"></a>📌 新接口地址</h3><ul><li><strong>推荐使用：</strong> <code>cn.vercount.one</code></li><li><strong>接口地址：</strong> <code>//cn.vercount.one/js</code></li><li><strong>特点：</strong> 数据完全兼容，无需重新累计</li></ul><hr><h2 id="三、修改步骤（保姆级）"><a href="#三、修改步骤（保姆级）" class="headerlink" title="三、修改步骤（保姆级）"></a>三、修改步骤（保姆级）</h2><h3 id="📂-需要修改的文件"><a href="#📂-需要修改的文件" class="headerlink" title="📂 需要修改的文件"></a>📂 需要修改的文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">你的博客根目录/</span><br><span class="line">└── themes/</span><br><span class="line">    └── butterfly/</span><br><span class="line">        └── layout/</span><br><span class="line">            └── includes/</span><br><span class="line">                ├── additional-js.pug       ← 修改文件 1</span><br><span class="line">                └── head/</span><br><span class="line">                    └── preconnect.pug      ← 修改文件 2</span><br></pre></td></tr></table></figure><hr><h3 id="🔧-步骤-1：修改-JS-引入"><a href="#🔧-步骤-1：修改-JS-引入" class="headerlink" title="🔧 步骤 1：修改 JS 引入"></a>🔧 步骤 1：修改 JS 引入</h3><p><strong>文件位置：</strong> <code>themes/butterfly/layout/includes/additional-js.pug</code></p><p><strong>找到第 56-57 行左右：</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if theme.busuanzi.site_uv || theme.busuanzi.site_pv || theme.busuanzi.page_pv</span><br><span class="line">  script(async data-pjax src= theme.asset.busuanzi || &#x27;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&#x27;)</span><br></pre></td></tr></table></figure><p><strong>修改为：</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if theme.busuanzi.site_uv || theme.busuanzi.site_pv || theme.busuanzi.page_pv</span><br><span class="line">  script(async data-pjax src= theme.asset.busuanzi || &#x27;//cn.vercount.one/js&#x27;)</span><br></pre></td></tr></table></figure><p><strong>修改说明：</strong></p><ul><li>将 <code>//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js</code> </li><li>替换为 <code>//cn.vercount.one/js</code></li></ul><hr><h3 id="🔧-步骤-2：修改预连接"><a href="#🔧-步骤-2：修改预连接" class="headerlink" title="🔧 步骤 2：修改预连接"></a>🔧 步骤 2：修改预连接</h3><p><strong>文件位置：</strong> <code>themes/butterfly/layout/includes/head/preconnect.pug</code></p><p><strong>找到最后几行（第 34-35 行左右）：</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !theme.asset.busuanzi &amp;&amp; (theme.busuanzi.site_uv || theme.busuanzi.site_pv || theme.busuanzi.page_pv)</span><br><span class="line">  link(rel=&quot;preconnect&quot; href=&quot;//busuanzi.ibruce.info&quot;)</span><br></pre></td></tr></table></figure><p><strong>修改为：</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !theme.asset.busuanzi &amp;&amp; (theme.busuanzi.site_uv || theme.busuanzi.site_pv || theme.busuanzi.page_pv)</span><br><span class="line">  link(rel=&quot;preconnect&quot; href=&quot;//cn.vercount.one&quot;)</span><br></pre></td></tr></table></figure><p><strong>修改说明：</strong></p><ul><li>将 <code>//busuanzi.ibruce.info</code> </li><li>替换为 <code>//cn.vercount.one</code></li></ul><p><strong>preconnect 的作用：</strong></p><ul><li>提前建立与统计服务器的连接</li><li>减少后续请求的延迟</li><li>提升页面加载速度</li></ul><hr><h3 id="🎉-步骤-3：重新生成网站"><a href="#🎉-步骤-3：重新生成网站" class="headerlink" title="🎉 步骤 3：重新生成网站"></a>🎉 步骤 3：重新生成网站</h3><p>在博客根目录执行以下命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清除缓存</span></span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新生成</span></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地预览</span></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure><p>访问 <code>http://localhost:4000</code> 查看效果。</p><hr><h2 id="四、常见问题"><a href="#四、常见问题" class="headerlink" title="四、常见问题"></a>四、常见问题</h2><h3 id="❓-Q1：修改后数据会清零吗？"><a href="#❓-Q1：修改后数据会清零吗？" class="headerlink" title="❓ Q1：修改后数据会清零吗？"></a>❓ Q1：修改后数据会清零吗？</h3><p><strong>A：</strong> 不会！新接口与官方数据完全兼容，之前累计的访问量不会丢失。</p><hr><h3 id="❓-Q2：统计数据不显示怎么办？"><a href="#❓-Q2：统计数据不显示怎么办？" class="headerlink" title="❓ Q2：统计数据不显示怎么办？"></a>❓ Q2：统计数据不显示怎么办？</h3><p><strong>检查清单：</strong></p><ol><li><p><strong>确认配置已启用</strong></p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">busuanzi:</span></span><br><span class="line">  <span class="attr">site_uv:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">site_pv:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">page_pv:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li><li><p><strong>清除浏览器缓存</strong></p><ul><li>按 <code>Ctrl + F5</code> 强制刷新</li></ul></li><li><p><strong>检查主题文件修改</strong></p><ul><li>确认两个文件都已修改</li><li>检查是否有拼写错误</li></ul></li><li><p><strong>查看控制台错误</strong></p><ul><li>按 <code>F12</code> 打开开发者工具</li><li>查看 Console 是否有报错</li></ul></li></ol><hr><h3 id="❓-Q3：可以同时使用多个统计工具吗？"><a href="#❓-Q3：可以同时使用多个统计工具吗？" class="headerlink" title="❓ Q3：可以同时使用多个统计工具吗？"></a>❓ Q3：可以同时使用多个统计工具吗？</h3><p><strong>A：</strong> 可以！你可以同时使用：</p><ul><li><strong>不蒜子</strong> - 显示在侧边栏（快速查看）</li><li><strong>Google Analytics</strong> - 详细数据分析</li><li><strong>百度统计</strong> - 国内 SEO 优化</li></ul><p>它们不会冲突。</p><hr><h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><h3 id="✅-修改要点"><a href="#✅-修改要点" class="headerlink" title="✅ 修改要点"></a>✅ 修改要点</h3><ol><li><strong>修改 JS 引入地址</strong> - <code>additional-js.pug</code></li><li><strong>修改预连接地址</strong> - <code>preconnect.pug</code></li><li><strong>清除缓存并重新生成</strong> - <code>hexo clean &amp;&amp; hexo g</code></li></ol><h3 id="🎯-核心改动"><a href="#🎯-核心改动" class="headerlink" title="🎯 核心改动"></a>🎯 核心改动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">官方接口：//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js</span><br><span class="line">         ↓</span><br><span class="line">新接口：//cn.vercount.one/js</span><br></pre></td></tr></table></figure><h3 id="📝-注意事项"><a href="#📝-注意事项" class="headerlink" title="📝 注意事项"></a>📝 注意事项</h3><ul><li>✅ 不需要修改配置文件</li><li>✅ 数据不会丢失</li><li>✅ 完全兼容原有功能</li><li>✅ 提升加载速度和稳定性</li></ul><hr><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>通过本教程，你已经成功将 Butterfly 主题的不蒜子统计接口替换为新接口，大大提升了访问统计的加载速度和稳定性。如果你觉得本教程对你有帮助，欢迎分享给更多需要的朋友！</p><hr>]]></content>
-      
-      
-      <categories>
-          
-          <category> 主题美化 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> butterfly </tag>
-            
-            <tag> butterfly主题魔改 </tag>
-            
-            <tag> Hexo </tag>
-            
-            <tag> 网站统计 </tag>
-            
-            <tag> 不蒜子 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Butterfly主题昼夜切换动画美化教程</title>
       <link href="/posts/2f19e88f.html"/>
       <url>/posts/2f19e88f.html</url>
@@ -82,9 +49,9 @@
     
     
     <entry>
-      <title>友情链接</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -93,9 +60,9 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>友情链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
