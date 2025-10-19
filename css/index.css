@@ -3540,7 +3540,7 @@ figure.highlight pre .javascript .function {
   }
 }
 .layout > div:first-child {
-  width: calc(100% - 318px);
+  width: calc(100% - 312px);
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
