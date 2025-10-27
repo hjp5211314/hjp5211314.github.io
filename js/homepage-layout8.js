@@ -28,11 +28,7 @@
         const isDate = e.target.closest('.post-meta-date');
         
         if (!isMetaLink && !isDate && !anchor) {
-          if (window.pjax && !link.target) {
-            window.pjax.loadUrl(link.href);
-          } else {
-            window.open(link.href, link.target || '_self');
-          }
+          window.open(link.href, link.target || '_self');
         }
       });
     });

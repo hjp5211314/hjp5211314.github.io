@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
           lines.push(currentLine)
         }
         
-        // 重新排列 DOM 元素
+        // 重新排列 DOM 元素（直接移动而非克隆，保留事件监听器）
         const fragment = document.createDocumentFragment()
         const displayedIndices = new Set()
         
@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tag.style.color = shuffledColors[colorIndex]
             tag.style.visibility = 'visible'
             tag.style.display = 'inline-block'
-            fragment.appendChild(tag.cloneNode(true))
+            fragment.appendChild(tag) // 直接移动元素，不克隆
             displayedIndices.add(index)
           })
         })
