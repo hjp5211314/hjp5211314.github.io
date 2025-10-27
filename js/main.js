@@ -909,11 +909,16 @@ document.addEventListener('DOMContentLoaded', () => {
    * 同步统计数据到网站概览卡片（不蒜子/Umami）
    */
   const syncBusuanziToOverview = () => {
+    const $busuanziSitePvOverview = document.getElementById('busuanzi_value_site_pv_overview')
+    const $umamiSitePvOverview = document.getElementById('umami-site-pv-overview')
+    
+    // 检查是否存在 overview 元素
+    if (!$busuanziSitePvOverview && !$umamiSitePvOverview) return
+    
     // 同步函数
     const syncData = () => {
       // 同步不蒜子 PV
       const $busuanziSitePv = document.getElementById('busuanzi_value_site_pv')
-      const $busuanziSitePvOverview = document.getElementById('busuanzi_value_site_pv_overview')
       if ($busuanziSitePv && $busuanziSitePvOverview) {
         const pvText = $busuanziSitePv.textContent
         if (pvText && !pvText.includes('fa-spinner')) {
@@ -924,11 +929,25 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // 同步 Umami PV
       const $umamiSitePv = document.getElementById('umami-site-pv')
-      const $umamiSitePvOverview = document.getElementById('umami-site-pv-overview')
       if ($umamiSitePv && $umamiSitePvOverview) {
         const pvText = $umamiSitePv.textContent
         if (pvText && !pvText.includes('fa-spinner')) {
           $umamiSitePvOverview.textContent = pvText
+          return true
+        }
+      }
+      
+      // 如果 card_webinfo 不存在，检查 overview 自身是否已加载（不蒜子直接填充）
+      if (!$busuanziSitePv && $busuanziSitePvOverview) {
+        const pvText = $busuanziSitePvOverview.textContent
+        if (pvText && !pvText.includes('fa-spinner')) {
+          return true
+        }
+      }
+      
+      if (!$umamiSitePv && $umamiSitePvOverview) {
+        const pvText = $umamiSitePvOverview.textContent
+        if (pvText && !pvText.includes('fa-spinner')) {
           return true
         }
       }
@@ -943,7 +962,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     
-    // 监听网站信息卡片的统计元素
+    // 监听网站信息卡片的统计元素（如果存在）
     const $busuanziSitePv = document.getElementById('busuanzi_value_site_pv')
     const $umamiSitePv = document.getElementById('umami-site-pv')
     
@@ -953,10 +972,24 @@ document.addEventListener('DOMContentLoaded', () => {
         characterData: true,
         subtree: true
       })
+    } else if ($busuanziSitePvOverview) {
+      // 如果 card_webinfo 不存在，直接监听 overview 元素
+      observer.observe($busuanziSitePvOverview, {
+        childList: true,
+        characterData: true,
+        subtree: true
+      })
     }
     
     if ($umamiSitePv) {
       observer.observe($umamiSitePv, {
+        childList: true,
+        characterData: true,
+        subtree: true
+      })
+    } else if ($umamiSitePvOverview) {
+      // 如果 card_webinfo 不存在，直接监听 overview 元素
+      observer.observe($umamiSitePvOverview, {
         childList: true,
         characterData: true,
         subtree: true
