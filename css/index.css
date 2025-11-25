@@ -3637,9 +3637,24 @@ figure.highlight pre .javascript .function {
   -ms-transform: scale(1);
   transform: scale(1);
 }
+.container .flink .flink-list > .flink-list-item:hover a,
+.container .flink .flink-list > .flink-list-item:focus a,
+.container .flink .flink-list > .flink-list-item:active a {
+  color: #fff;
+}
+[data-theme='dark'] .container .flink .flink-list > .flink-list-item:hover a,
+[data-theme='dark'] .container .flink .flink-list > .flink-list-item:focus a,
+[data-theme='dark'] .container .flink .flink-list > .flink-list-item:active a {
+  color: #000;
+}
 .container .flink .flink-list > .flink-list-item a {
   color: var(--font-color);
   text-decoration: none;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  -ms-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
 }
 .container .flink .flink-list > .flink-list-item a .flink-item-icon {
   float: left;
