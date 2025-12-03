@@ -1758,14 +1758,11 @@
         spinContainer.style.animationPlayState = play ? 'running' : 'paused';
       };
       
-      // 鼠标拖拽
       container.onpointerdown = function(e) {
-        if (e.pointerType === 'touch') return; // 触摸用专门的事件处理
         clearInterval(dragContainer.timer);
         let oX = e.clientX, oY = e.clientY;
         
         this.onpointermove = function(e) {
-          if (e.pointerType === 'touch') return;
           tX = e.clientX - oX;
           tY = e.clientY - oY;
           desX += tX * 0.1;
@@ -1795,70 +1792,6 @@
         
         return false;
       };
-      
-      // 触摸事件 - 单指旋转，双指缩放
-      let lastTouchX = 0, lastTouchY = 0;
-      let lastPinchDist = 0;
-      
-      container.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        clearInterval(dragContainer.timer);
-        toggleAnimation(false);
-        
-        if (e.touches.length === 1) {
-          lastTouchX = e.touches[0].clientX;
-          lastTouchY = e.touches[0].clientY;
-        } else if (e.touches.length === 2) {
-          const dx = e.touches[0].clientX - e.touches[1].clientX;
-          const dy = e.touches[0].clientY - e.touches[1].clientY;
-          lastPinchDist = Math.sqrt(dx * dx + dy * dy);
-        }
-      }, { passive: false });
-      
-      container.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        
-        if (e.touches.length === 1) {
-          // 单指旋转
-          const touchX = e.touches[0].clientX;
-          const touchY = e.touches[0].clientY;
-          tX = touchX - lastTouchX;
-          tY = touchY - lastTouchY;
-          desX += tX * 0.3;
-          desY += tY * 0.3;
-          applyRotation(dragContainer);
-          lastTouchX = touchX;
-          lastTouchY = touchY;
-        } else if (e.touches.length === 2) {
-          // 双指缩放
-          const dx = e.touches[0].clientX - e.touches[1].clientX;
-          const dy = e.touches[0].clientY - e.touches[1].clientY;
-          const pinchDist = Math.sqrt(dx * dx + dy * dy);
-          const delta = (pinchDist - lastPinchDist) * 0.5;
-          self.radius += delta;
-          self.radius = Math.max(150, Math.min(400, self.radius));
-          initItems(0.1);
-          lastPinchDist = pinchDist;
-        }
-      }, { passive: false });
-      
-      container.addEventListener('touchend', (e) => {
-        if (e.touches.length === 0) {
-          // 惯性滑动
-          dragContainer.timer = setInterval(() => {
-            tX *= 0.92;
-            tY *= 0.92;
-            desX += tX * 0.1;
-            desY += tY * 0.1;
-            applyRotation(dragContainer);
-            
-            if (Math.abs(tX) < 0.5 && Math.abs(tY) < 0.5) {
-              clearInterval(dragContainer.timer);
-              toggleAnimation(true);
-            }
-          }, 17);
-        }
-      });
       
       // 滚轮缩放 - 在拖拽容器区域内生效（包含图片整体区域）
       dragContainer.onmousewheel = (e) => {
