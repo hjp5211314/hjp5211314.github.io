@@ -1211,10 +1211,21 @@
 }
 
 .video-frames-textline {
+  color: transparent;
   -webkit-text-stroke: 1.5px var(--theme-color);
   -webkit-text-fill-color: transparent;
-  color: transparent;
-  paint-order: stroke fill;
+}
+
+/* 移动端使用text-shadow模拟描边 */
+@supports not (-webkit-text-stroke: 1px black) {
+  .video-frames-textline {
+    color: transparent;
+    text-shadow:
+      -1px -1px 0 var(--theme-color),
+      1px -1px 0 var(--theme-color),
+      -1px 1px 0 var(--theme-color),
+      1px 1px 0 var(--theme-color);
+  }
 }
 
 .video-frames-track {
@@ -1319,6 +1330,18 @@
   .video-frames-text,
   .video-frames-textline {
     font-size: 2rem;
+  }
+  .video-frames-textline {
+    -webkit-text-stroke: 0;
+    text-shadow:
+      -1px -1px 0 var(--theme-color),
+      1px -1px 0 var(--theme-color),
+      -1px 1px 0 var(--theme-color),
+      1px 1px 0 var(--theme-color),
+      0 -1px 0 var(--theme-color),
+      0 1px 0 var(--theme-color),
+      -1px 0 0 var(--theme-color),
+      1px 0 0 var(--theme-color);
   }
   .video-frames-track {
     height: 100px;
