@@ -262,11 +262,11 @@ html.lenis body { will-change: scroll-position; }
     });
   };
   
-  // 等待页面完全加载后初始化
-  if (document.readyState === 'complete') {
-    requestAnimationFrame(initLenis);
+  // DOM 准备好后立即初始化（不等待图片等资源）
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLenis);
   } else {
-    window.addEventListener('load', () => requestAnimationFrame(initLenis));
+    initLenis();
   }
 })();</script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script data-pjax type="text/javascript" src="https://gcore.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script><script data-pjax type="text/javascript" src="https://gcore.jsdelivr.net/gh/Zfour/Butterfly-card-history@latest/baiduhistory/js/main.js"></script><script data-pjax type="text/javascript" src="/js/nav.js"></script><script defer type="text/javascript" src="/js/universe.js"></script><script data-pjax type="text/javascript" src="/js/homepage-layout8.js"></script><script src="/js/sun_moon.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>(() => {
   const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
